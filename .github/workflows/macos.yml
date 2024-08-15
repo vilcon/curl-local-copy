@@ -77,9 +77,9 @@ jobs:
             compiler: gcc-12
             configure: --without-ssl --enable-websockets
             macos-version-min: '10.9'
-          - name: '!ssl'
+          - name: '!ssl !AppleIDN'
             compiler: clang
-            configure: --enable-debug --without-ssl --enable-websockets
+            configure: --enable-debug --without-ssl --without-apple-idn --enable-websockets
             macos-version-min: '10.9'
           - name: '!ssl libssh2'
             compiler: clang
@@ -301,9 +301,9 @@ jobs:
             install: libressl heimdal
             generate: -DOPENSSL_ROOT_DIR=$(brew --prefix libressl) -DENABLE_ARES=ON -DCURL_USE_GSSAPI=ON -DGSS_ROOT_DIR=$(brew --prefix heimdal) -DCURL_DISABLE_LDAP=ON -DCURL_DISABLE_LDAPS=ON -DBUILD_EXAMPLES=ON
             macos-version-min: '10.15'
-          - name: 'wolfSSL !ldap brotli zstd'
+          - name: 'wolfSSL !ldap brotli zstd !AppleIDN'
             install: brotli wolfssl zstd
-            generate: -DCURL_USE_WOLFSSL=ON -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DCURL_DISABLE_LDAP=ON -DCURL_DISABLE_LDAPS=ON
+            generate: -DCURL_USE_WOLFSSL=ON -DCURL_BROTLI=ON -DCURL_ZSTD=ON -DCURL_DISABLE_LDAP=ON -DCURL_DISABLE_LDAPS=ON -DUSE_APPLE_IDN=OFF
             macos-version-min: '10.15'
           - name: 'GnuTLS !ldap krb5'
             install: gnutls nettle krb5
