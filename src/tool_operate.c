@@ -3085,7 +3085,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
 
 #ifdef _WIN32
       if(!env) {
-#ifdef CURL_WIN32_SAFE_CA_SEARCH
+#if defined(CURL_WIN32_SAFE_CA_SEARCH) || defined(CURL_WINDOWS_APP)
 #error "CURL_WIN32_SAFE_CA_SEARCH enabled"
         if(feature_ssl &&
            tls_backend_info->backend != CURLSSLBACKEND_SCHANNEL) {
