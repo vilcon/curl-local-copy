@@ -2550,6 +2550,31 @@ AM_CONDITIONAL([CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS],
   [test "x$versioned_symbols" = 'xyes'])
 
 dnl ----------------------------
+dnl check Windows safe CA search
+dnl ----------------------------
+
+want_win32_safe_ca_search="no"
+if test "$curl_cv_native_windows" = "yes"; then
+  AC_MSG_CHECKING([whether to enable Windows safe CA search (Windows native builds only)])
+  OPT_WIN32_SAFE_CA_SEARCH="default"
+  AC_ARG_WITH(windows-safe-ca-search,
+  AS_HELP_STRING([--with-windows-safe-ca-search],[enable Windows safe CA search])
+  AS_HELP_STRING([--without-windows-safe-ca-search], [disable Windows safe CA search (default)]),
+    OPT_WIN32_SAFE_CA_SEARCH=$withval)
+  case "$OPT_WIN32_SAFE_CA_SEARCH" in
+    yes)
+      want_win32_safe_ca_search="yes"
+      AC_MSG_RESULT([yes])
+      ;;
+    *)
+      AC_MSG_RESULT([no])
+      ;;
+  esac
+fi
+
+AM_CONDITIONAL([USE_WIN32_SAFE_CA_SEARCH], [test "$want_win32_safe_ca_search" = "yes"])
+
+dnl ----------------------------
 dnl check Windows Unicode option
 dnl ----------------------------
 
