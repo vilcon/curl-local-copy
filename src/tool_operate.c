@@ -3097,6 +3097,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
           }
         }
 #else
+        notef(config->global, "Searching for \"curl-ca-bundle.crt\" in PATH");
         result = FindWin32CACert(config, tls_backend_info->backend,
                                  TEXT("curl-ca-bundle.crt"));
 #endif
