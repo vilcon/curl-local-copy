@@ -3084,9 +3084,22 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
       }
 
 #ifdef _WIN32
-      if(!env)
+      if(!env) {
+#ifdef CURL_WIN32_SAFE_CA_SEARCH
+        if(feature_ssl &&
+           tls_backend_info->backend != CURLSSLBACKEND_SCHANNEL) {
+          char *cacert = NULL;
+          FILE *cafile = Curl_win32_execpath("curl-ca-bundle.crt", &cacert);
+          if(cafile) {
+            fclose(cafile);
+            config->cacert = strdup(cacert);
+          }
+        }
+#else
         result = FindWin32CACert(config, tls_backend_info->backend,
                                  TEXT("curl-ca-bundle.crt"));
+#endif
+      }
 #endif
     }
     curl_easy_cleanup(curltls);
