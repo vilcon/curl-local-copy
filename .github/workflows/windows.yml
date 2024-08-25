@@ -379,12 +379,6 @@ jobs:
         if: ${{ matrix.build == 'autotools' && !cancelled() }}
         run: cat bld/config.log 2>/dev/null || true
 
-      - name: 'autotools build'
-        if: ${{ matrix.build == 'autotools' }}
-        run: |
-          make -C bld -j5 V=1
-          make -C bld -j5 examples
-
       - name: 'cmake configure'
         if: ${{ matrix.build == 'cmake' }}
         run: |
@@ -401,6 +395,12 @@ jobs:
       - name: 'cmake configure log'
         if: ${{ matrix.build == 'cmake' && !cancelled() }}
         run: cat bld/CMakeFiles/CMake*.yaml 2>/dev/null || true
+
+      - name: 'autotools build'
+        if: ${{ matrix.build == 'autotools' }}
+        run: |
+          make -C bld -j5 V=1
+          make -C bld -j5 examples
 
       - name: 'cmake build'
         if: ${{ matrix.build == 'cmake' }}
