@@ -382,7 +382,7 @@ jobs:
       - name: 'autotools build'
         if: ${{ matrix.build == 'autotools' }}
         run: |
-          make -C bld -j5
+          make -C bld -j5 V=1
           make -C bld -j5 examples
 
       - name: 'cmake configure'
@@ -404,7 +404,7 @@ jobs:
 
       - name: 'cmake build'
         if: ${{ matrix.build == 'cmake' }}
-        run: cmake --build bld --parallel 5
+        run: make -C bld -j5 VERBOSE=1
 
   msvc:
     name: 'msvc, CM ${{ matrix.arch }}-${{ matrix.plat }} ${{ matrix.name }}'
