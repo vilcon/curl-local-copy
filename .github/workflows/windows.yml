@@ -354,7 +354,7 @@ jobs:
       matrix:
         build: [autotools, cmake]
         compiler: [gcc]
-        options: ['WinIDN', 'none']
+        options: ['!WinIDN', 'none']
     env:
       TRIPLET: 'x86_64-w64-mingw32'
     steps:
@@ -370,7 +370,7 @@ jobs:
       - name: 'autotools configure'
         if: ${{ matrix.build == 'autotools' }}
         run: |
-          [[ '${{ matrix.options }}' = *'WinIDN'* ]] && options+=' --with-winidn'
+          [[ '${{ matrix.options }}' = *'!WinIDN'* ]] && options+=' --without-winidn'
           mkdir bld && cd bld && ../configure --enable-warnings --enable-werror \
             --host=${TRIPLET} \
             --with-schannel \
@@ -385,7 +385,7 @@ jobs:
       - name: 'cmake configure'
         if: ${{ matrix.build == 'cmake' }}
         run: |
-          [[ '${{ matrix.options }}' = *'WinIDN'* ]] && options+=' -DUSE_WIN32_IDN=ON'
+          [[ '${{ matrix.options }}' = *'!WinIDN'* ]] && options+=' -DUSE_WIN32_IDN=OFF'
           cmake -B bld \
             -DCMAKE_SYSTEM_NAME=Windows \
             -DCMAKE_C_COMPILER_TARGET=${TRIPLET} \
