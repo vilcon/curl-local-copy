@@ -39,8 +39,6 @@
 #include "tool_bname.h"
 #include "tool_doswin.h"
 
-#define ENABLE_CURLX_PRINTF
-/* use our own printf() functions */
 #include "curlx.h"
 #include "memdebug.h" /* keep this as LAST include */
 
