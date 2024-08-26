@@ -354,7 +354,7 @@ jobs:
       matrix:
         build: [autotools, cmake]
         compiler: [gcc]
-        options: ['!WinIDN', 'none']
+        options: ['!WinIDN', '']
     env:
       TRIPLET: 'x86_64-w64-mingw32'
     steps:
