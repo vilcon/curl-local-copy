@@ -441,10 +441,9 @@ if test "$OPENSSL_ENABLED" = "1"; then
     AC_MSG_RESULT([no])
   ])
 fi
-])
 
 if test "$OPENSSL_ENABLED" = "1"; then
-  if test "$have_openssl_quic" = 'yes'; then
+  if test "$have_openssl_quic" = '1'; then
     LIBCURL_PC_REQUIRES_PRIVATE="$LIBCURL_PC_REQUIRES_PRIVATE openssl|>=|3.3.0"
   elif test "$have_openssl3" = 'yes'; then
     LIBCURL_PC_REQUIRES_PRIVATE="$LIBCURL_PC_REQUIRES_PRIVATE openssl|>=|3.0.0"
@@ -452,3 +451,4 @@ if test "$OPENSSL_ENABLED" = "1"; then
     LIBCURL_PC_REQUIRES_PRIVATE="$LIBCURL_PC_REQUIRES_PRIVATE openssl"
   fi
 fi
+])
