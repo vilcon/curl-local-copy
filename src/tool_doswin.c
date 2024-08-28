@@ -669,11 +669,9 @@ FILE *Curl_win32_execpath(const char *filename, char **pathp)
       /* If we have enough space, build the RC filename */
       remaining = sizeof(filebuffer) - strlen(filebuffer);
       if(strlen(filename) < remaining - 1) {
-        FILE *f;
         msnprintf(lastdirchar, remaining, "%s%s", DIR_CHAR, filename);
         *pathp = filebuffer;
-        f = fopen(filebuffer, FOPEN_READTEXT);
-        return f;
+        return fopen(filebuffer, FOPEN_READTEXT);
       }
     }
   }
