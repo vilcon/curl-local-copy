@@ -190,6 +190,8 @@ int tool_ftruncate64(int fd, curl_off_t where)
 
 #endif /* USE_TOOL_FTRUNCATE */
 
+extern char *tool_argv0;
+
 FILE *Curl_execpath(const char *filename, char **pathp)
 {
   static char filebuffer[512];

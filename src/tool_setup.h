@@ -39,8 +39,6 @@
 
 extern FILE *tool_stderr;
 
-extern char *tool_argv0;
-
 /*
  * curl tool certainly uses libcurl's external interface.
  */
