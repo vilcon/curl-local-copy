@@ -24,6 +24,7 @@
  *
  ***************************************************************************/
 #include "tool_setup.h"
+#include "tool_cfgable.h"
 
 struct timeval tvnow(void);
 
