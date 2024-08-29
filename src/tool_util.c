@@ -196,6 +196,7 @@ FILE *Curl_execpath(struct GlobalConfig *config,
   static char filebuffer[512];
   unsigned long len;
 #ifdef _WIN32
+  (void)config;
   /* Get the filename of our executable. GetModuleFileName is already declared
    * via inclusions done in setup header file. We assume that we are using
    * the ASCII version here.
