@@ -3084,7 +3084,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
       }
 
       if(!env) {
-#if defined(CURL_SAFE_CA_SEARCH) || defined(CURL_WINDOWS_APP)
+#if defined(CURL_CA_SAFE_SEARCH) || defined(CURL_WINDOWS_APP)
         if(feature_ssl &&
            tls_backend_info->backend != CURLSSLBACKEND_SCHANNEL) {
           char *cacert = NULL;

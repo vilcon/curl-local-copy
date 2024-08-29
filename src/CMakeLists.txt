@@ -106,9 +106,9 @@ add_library(
 target_compile_definitions(curltool PUBLIC "UNITTESTS" "CURL_STATICLIB")
 target_link_libraries(curltool PRIVATE ${CURL_LIBS})
 
-option(CURL_SAFE_CA_SEARCH "Enable safe CA bundle search (within the curl tool directory)" OFF)
-if(CURL_SAFE_CA_SEARCH)
-  set_property(TARGET ${EXE_NAME} APPEND PROPERTY COMPILE_DEFINITIONS "CURL_SAFE_CA_SEARCH")
+option(CURL_CA_SAFE_SEARCH "Enable safe CA bundle search (within the curl tool directory)" OFF)
+if(CURL_CA_SAFE_SEARCH)
+  set_property(TARGET ${EXE_NAME} APPEND PROPERTY COMPILE_DEFINITIONS "CURL_CA_SAFE_SEARCH")
 endif()
 
 if(CURL_HAS_LTO)
