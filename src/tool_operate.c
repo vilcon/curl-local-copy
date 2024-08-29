@@ -3085,7 +3085,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
 
 #if !defined(CURL_CA_SEARCH_DISABLE)
       if(!env) {
-#if defined(CURL_CA_SEARCH_SAFE) || defined(CURL_WINDOWS_APP)
+#if defined(CURL_CA_SEARCH_SAFE)
         if(feature_ssl &&
            tls_backend_info->backend != CURLSSLBACKEND_SCHANNEL) {
           char *cacert = NULL;
@@ -3095,7 +3095,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
             config->cacert = strdup(cacert);
           }
         }
-#elif defined(_WIN32)
+#elif defined(_WIN32) && !defined(CURL_WINDOWS_APP)
         result = FindWin32CACert(config, tls_backend_info->backend,
                                  TEXT("curl-ca-bundle.crt"));
 #endif
