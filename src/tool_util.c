@@ -29,6 +29,7 @@
 
 #include "tool_util.h"
 
+#include "curlx.h"
 #include "memdebug.h" /* keep this as LAST include */
 
 #if defined(_WIN32)
