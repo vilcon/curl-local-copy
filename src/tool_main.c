@@ -212,6 +212,8 @@ static void main_free(struct GlobalConfig *config)
   config->last = NULL;
 }
 
+char * tool_argv0;
+
 /*
 ** curl tool main function.
 */
@@ -249,6 +251,9 @@ int main(int argc, char *argv[])
     errorf(&global, "(%d) Windows-specific init failed", result);
     return (int)result;
   }
+#else
+  if(argc > 0)
+    tool_argv0 = argv[0];
 #endif
 
   if(main_checkfds()) {

@@ -26,12 +26,12 @@
 #include "curlx.h"
 
 #include "tool_cfgable.h"
-#include "tool_doswin.h"
 #include "tool_getparam.h"
 #include "tool_helpers.h"
 #include "tool_findfile.h"
 #include "tool_msgs.h"
 #include "tool_parsecfg.h"
+#include "tool_util.h"
 #include "dynbuf.h"
 
 #include "memdebug.h" /* keep this as LAST include */
@@ -70,9 +70,9 @@ int parseconfig(const char *filename, struct GlobalConfig *global)
     else {
       char *fullp;
       /* check for .curlrc then _curlrc in the dir of the executable */
-      file = Curl_win32_execpath(".curlrc", &fullp);
+      file = Curl_execpath(".curlrc", &fullp);
       if(!file)
-        file = Curl_win32_execpath("_curlrc", &fullp);
+        file = Curl_execpath("_curlrc", &fullp);
       if(file)
         /* this is the filename we read from */
         filename = fullp;

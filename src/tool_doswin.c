@@ -652,33 +652,6 @@ CURLcode FindWin32CACert(struct OperationConfig *config,
 }
 #endif
 
-FILE *Curl_win32_execpath(const char *filename, char **pathp)
-{
-  static char filebuffer[512];
-  /* Get the filename of our executable. GetModuleFileName is already declared
-   * via inclusions done in setup header file. We assume that we are using
-   * the ASCII version here.
-   */
-  unsigned long len = GetModuleFileNameA(0, filebuffer, sizeof(filebuffer));
-  if(len > 0 && len < sizeof(filebuffer)) {
-    /* We got a valid filename - get the directory part */
-    char *lastdirchar = strrchr(filebuffer, '\\');
-    if(lastdirchar) {
-      size_t remaining;
-      *lastdirchar = 0;
-      /* If we have enough space, build the RC filename */
-      remaining = sizeof(filebuffer) - strlen(filebuffer);
-      if(strlen(filename) < remaining - 1) {
-        msnprintf(lastdirchar, remaining, "%s%s", DIR_CHAR, filename);
-        *pathp = filebuffer;
-        return fopen(filebuffer, FOPEN_READTEXT);
-      }
-    }
-  }
-
-  return NULL;
-}
-
 /* Get a list of all loaded modules with full paths.
  * Returns slist on success or NULL on error.
  */

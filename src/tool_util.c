@@ -188,3 +188,41 @@ int tool_ftruncate64(int fd, curl_off_t where)
 }
 
 #endif /* USE_TOOL_FTRUNCATE */
+
+FILE *Curl_execpath(const char *filename, char **pathp)
+{
+  static char filebuffer[512];
+  unsigned long len;
+#ifdef _WIN32
+  /* Get the filename of our executable. GetModuleFileName is already declared
+   * via inclusions done in setup header file. We assume that we are using
+   * the ASCII version here.
+   */
+  len = GetModuleFileNameA(0, filebuffer, sizeof(filebuffer));
+#else
+  if(tool_argv0) {
+    strncpy(filebuffer, tool_argv0, sizeof(filebuffer) - 1);
+    filebuffer[sizeof(filebuffer) - 1] = '\0';
+    len = (unsigned long)strlen(filebuffer);
+  }
+  else
+    len = 0;
+#endif
+  if(len > 0 && len < sizeof(filebuffer)) {
+    /* We got a valid filename - get the directory part */
+    char *lastdirchar = strrchr(filebuffer, DIR_CHAR[0]);
+    if(lastdirchar) {
+      size_t remaining;
+      *lastdirchar = 0;
+      /* If we have enough space, build the RC filename */
+      remaining = sizeof(filebuffer) - strlen(filebuffer);
+      if(strlen(filename) < remaining - 1) {
+        msnprintf(lastdirchar, remaining, "%s%s", DIR_CHAR, filename);
+        *pathp = filebuffer;
+        return fopen(filebuffer, FOPEN_READTEXT);
+      }
+    }
+  }
+
+  return NULL;
+}

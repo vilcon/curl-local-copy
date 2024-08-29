@@ -64,7 +64,6 @@ CURLcode FindWin32CACert(struct OperationConfig *config,
                          curl_sslbackend backend,
                          const TCHAR *bundle_file);
 #endif
-FILE *Curl_win32_execpath(const char *filename, char **pathp);
 struct curl_slist *GetLoadedModulePaths(void);
 CURLcode win32_init(void);
 
