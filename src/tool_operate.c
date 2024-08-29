@@ -3083,6 +3083,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
         }
       }
 
+#if !defined(CURL_CA_SEARCH_DISABLE)
       if(!env) {
 #if defined(CURL_CA_SEARCH_SAFE) || defined(CURL_WINDOWS_APP)
         if(feature_ssl &&
@@ -3099,6 +3100,7 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
                                  TEXT("curl-ca-bundle.crt"));
 #endif
       }
+#endif
     }
     curl_easy_cleanup(curltls);
   }
