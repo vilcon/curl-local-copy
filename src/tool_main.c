@@ -212,7 +212,7 @@ static void main_free(struct GlobalConfig *config)
   config->last = NULL;
 }
 
-char * tool_argv0;
+char *tool_argv0;
 
 /*
 ** curl tool main function.
