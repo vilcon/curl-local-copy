@@ -45,7 +45,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include        \
 
 bin_PROGRAMS = curl
 
-if USE_SAFE_CA_SEARCH
+if USE_CA_SAFE_SEARCH
 AM_CPPFLAGS += -DCURL_CA_SAFE_SEARCH
 endif
 if USE_CPPFLAG_CURL_STATICLIB
