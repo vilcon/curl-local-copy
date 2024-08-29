@@ -600,7 +600,7 @@ char **__crt0_glob_function(char *arg)
 
 #ifdef _WIN32
 
-#if !defined(CURL_WIN32_SAFE_CA_SEARCH) && !defined(CURL_WINDOWS_APP)
+#if !defined(CURL_SAFE_CA_SEARCH) && !defined(CURL_WINDOWS_APP)
 /*
  * Function to find CACert bundle on a Win32 platform using SearchPath.
  * (SearchPath is already declared via inclusions done in setup header file)

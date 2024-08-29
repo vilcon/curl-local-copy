@@ -59,7 +59,7 @@ char **__crt0_glob_function(char *arg);
 
 #ifdef _WIN32
 
-#if !defined(CURL_WIN32_SAFE_CA_SEARCH) && !defined(CURL_WINDOWS_APP)
+#if !defined(CURL_SAFE_CA_SEARCH) && !defined(CURL_WINDOWS_APP)
 CURLcode FindWin32CACert(struct OperationConfig *config,
                          curl_sslbackend backend,
                          const TCHAR *bundle_file);
