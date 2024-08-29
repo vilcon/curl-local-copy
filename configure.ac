@@ -2553,16 +2553,16 @@ dnl --------------------
 dnl check safe CA search
 dnl --------------------
 
-want_ca_safe_search="no"
+want_ca_search_safe="no"
 AC_MSG_CHECKING([whether to enable safe CA search (within the curl tool directory)])
-OPT_CA_SAFE_SEARCH="default"
-AC_ARG_WITH(ca-safe-search,
-AS_HELP_STRING([--with-ca-safe-search],[enable safe CA search])
-AS_HELP_STRING([--without-ca-safe-search], [disable safe CA search (default)]),
-  OPT_CA_SAFE_SEARCH=$withval)
-case "$OPT_CA_SAFE_SEARCH" in
+OPT_CA_SEARCH_SAFE="default"
+AC_ARG_WITH(ca-search-safe,
+AS_HELP_STRING([--with-ca-search-safe],[enable safe CA search])
+AS_HELP_STRING([--without-ca-search-safe], [disable safe CA search (default)]),
+  OPT_CA_SEARCH_SAFE=$withval)
+case "$OPT_CA_SEARCH_SAFE" in
   yes)
-    want_ca_safe_search="yes"
+    want_ca_search_safe="yes"
     AC_MSG_RESULT([yes])
     ;;
   *)
@@ -2570,7 +2570,7 @@ case "$OPT_CA_SAFE_SEARCH" in
     ;;
 esac
 
-AM_CONDITIONAL([USE_CA_SAFE_SEARCH], [test "$want_ca_safe_search" = "yes"])
+AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = "yes"])
 
 dnl ----------------------------
 dnl check Windows Unicode option
