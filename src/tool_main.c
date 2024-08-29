@@ -212,8 +212,6 @@ static void main_free(struct GlobalConfig *config)
   config->last = NULL;
 }
 
-char *tool_argv0;
-
 /*
 ** curl tool main function.
 */
@@ -253,7 +251,7 @@ int main(int argc, char *argv[])
   }
 #else
   if(argc > 0)
-    tool_argv0 = argv[0];
+    global.argv0 = argv[0];
 #endif
 
   if(main_checkfds()) {

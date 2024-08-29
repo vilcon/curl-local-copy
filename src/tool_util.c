@@ -190,9 +190,8 @@ int tool_ftruncate64(int fd, curl_off_t where)
 
 #endif /* USE_TOOL_FTRUNCATE */
 
-extern char *tool_argv0;
-
-FILE *Curl_execpath(const char *filename, char **pathp)
+FILE *Curl_execpath(struct GlobalConfig *config,
+                    const char *filename, char **pathp)
 {
   static char filebuffer[512];
   unsigned long len;
@@ -203,8 +202,8 @@ FILE *Curl_execpath(const char *filename, char **pathp)
    */
   len = GetModuleFileNameA(0, filebuffer, sizeof(filebuffer));
 #else
-  if(tool_argv0) {
-    strncpy(filebuffer, tool_argv0, sizeof(filebuffer) - 1);
+  if(config->argv0) {
+    strncpy(filebuffer, config->argv0, sizeof(filebuffer) - 1);
     filebuffer[sizeof(filebuffer) - 1] = '\0';
     len = (unsigned long)strlen(filebuffer);
   }
