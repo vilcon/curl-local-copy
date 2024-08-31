@@ -2572,6 +2572,29 @@ esac
 
 AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = "yes"])
 
+dnl -----------------------
+dnl check disable CA search
+dnl -----------------------
+
+want_ca_search_disable="no"
+AC_MSG_CHECKING([whether to disable CA bundle search (on Windows)])
+OPT_CA_SEARCH_DISABLE="default"
+AC_ARG_WITH(ca-search-disable,
+AS_HELP_STRING([--with-ca-search-disable],[disable CA bundle search])
+AS_HELP_STRING([--without-ca-search-disable], [enable CA bundle search (default)]),
+  OPT_CA_SEARCH_DISABLE=$withval)
+case "$OPT_CA_SEARCH_DISABLE" in
+  yes)
+    want_ca_search_disable="yes"
+    AC_MSG_RESULT([yes])
+    ;;
+  *)
+    AC_MSG_RESULT([no])
+    ;;
+esac
+
+AM_CONDITIONAL([USE_CA_SEARCH_DISABLE], [test "$want_ca_search_disable" = "yes"])
+
 dnl ----------------------------
 dnl check Windows Unicode option
 dnl ----------------------------
