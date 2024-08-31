@@ -2553,49 +2553,49 @@ dnl --------------------
 dnl check safe CA search
 dnl --------------------
 
-want_ca_search_safe="no"
+want_ca_search_safe=0
 AC_MSG_CHECKING([whether to enable safe CA bundle search (within the curl tool directory)])
-OPT_CA_SEARCH_SAFE="default"
-AC_ARG_WITH(ca-search-safe,
-AS_HELP_STRING([--with-ca-search-safe],[enable safe CA bundle search])
-AS_HELP_STRING([--without-ca-search-safe], [disable safe CA bundle search (default)]),
-  OPT_CA_SEARCH_SAFE=$withval)
-case "$OPT_CA_SEARCH_SAFE" in
+AC_ARG_ENABLE(ca-search-safe,
+AS_HELP_STRING([--enable-ca-search-safe],[Enable safe CA bundle search])
+AS_HELP_STRING([--disable-ca-search-safe],[Disable safe CA bundle search (default)]),
+[ case "$enableval" in
   yes)
-    want_ca_search_safe="yes"
-    AC_MSG_RESULT([yes])
+    AC_MSG_RESULT(yes)
+    want_ca_search_safe=1
     ;;
   *)
-    AC_MSG_RESULT([no])
+    AC_MSG_RESULT(no)
     ;;
-esac
+  esac ],
+    AC_MSG_RESULT(no)
+)
 
-AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = "yes"])
+AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = '1'])
 
 dnl -----------------------
 dnl check disable CA search
 dnl -----------------------
 
+want_ca_search_disable=0
 if test "$curl_cv_native_windows" = "yes"; then
-  want_ca_search_disable="no"
   AC_MSG_CHECKING([whether to disable CA bundle search in PATH on Windows])
-  OPT_CA_SEARCH_DISABLE="default"
-  AC_ARG_WITH(ca-search-disable,
-  AS_HELP_STRING([--with-ca-search-disable],[disable CA bundle search in PATH])
-  AS_HELP_STRING([--without-ca-search-disable], [enable CA bundle search in PATH (default)]),
-    OPT_CA_SEARCH_DISABLE=$withval)
-  case "$OPT_CA_SEARCH_DISABLE" in
-    yes)
-      want_ca_search_disable="yes"
-      AC_MSG_RESULT([yes])
+  AC_ARG_ENABLE(ca-search,
+  AS_HELP_STRING([--enable-ca-search],[Enable CA bundle search in PATH on Windows (default)])
+  AS_HELP_STRING([--disable-ca-search],[Disable CA bundle search in PATH on Windows]),
+  [ case "$enableval" in
+    no)
+      AC_MSG_RESULT(no)
+      want_ca_search_disable=1
       ;;
     *)
-      AC_MSG_RESULT([no])
+      AC_MSG_RESULT(yes)
       ;;
-  esac
+    esac ],
+      AC_MSG_RESULT(yes)
+  )
 fi
 
-AM_CONDITIONAL([USE_CA_SEARCH_DISABLE], [test "$want_ca_search_disable" = "yes"])
+AM_CONDITIONAL([USE_CA_SEARCH_DISABLE], [test "$want_ca_search_disable" = '1'])
 
 dnl ----------------------------
 dnl check Windows Unicode option

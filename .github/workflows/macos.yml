@@ -93,7 +93,7 @@ jobs:
           - name: 'OpenSSL libssh'
             compiler: llvm@15
             install: libssh
-            configure: --enable-debug --with-libssh --with-openssl=$(brew --prefix openssl) --enable-websockets --with-ca-search-safe
+            configure: --enable-debug --with-libssh --with-openssl=$(brew --prefix openssl) --enable-websockets --enable-ca-search-safe
             macos-version-min: '10.9'
           - name: '!ssl c-ares'
             compiler: clang
