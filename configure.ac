@@ -2554,11 +2554,11 @@ dnl check safe CA search
 dnl --------------------
 
 want_ca_search_safe="no"
-AC_MSG_CHECKING([whether to enable safe CA search (within the curl tool directory)])
+AC_MSG_CHECKING([whether to enable safe CA bundle search (within the curl tool directory)])
 OPT_CA_SEARCH_SAFE="default"
 AC_ARG_WITH(ca-search-safe,
-AS_HELP_STRING([--with-ca-search-safe],[enable safe CA search])
-AS_HELP_STRING([--without-ca-search-safe], [disable safe CA search (default)]),
+AS_HELP_STRING([--with-ca-search-safe],[enable safe CA bundle search])
+AS_HELP_STRING([--without-ca-search-safe], [disable safe CA bundle search (default)]),
   OPT_CA_SEARCH_SAFE=$withval)
 case "$OPT_CA_SEARCH_SAFE" in
   yes)
