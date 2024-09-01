@@ -2572,16 +2572,16 @@ AS_HELP_STRING([--disable-ca-search-safe],[Disable safe CA bundle search (defaul
 
 AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = '1'])
 
-dnl -----------------------
-dnl check disable CA search
-dnl -----------------------
+dnl ------------------------------
+dnl check disable unsafe CA search
+dnl ------------------------------
 
 want_disable_ca_search=0
 if test "$curl_cv_native_windows" = "yes"; then
-  AC_MSG_CHECKING([whether to disable CA bundle search in PATH on Windows])
+  AC_MSG_CHECKING([whether to disable unsafe CA bundle search in PATH on Windows])
   AC_ARG_ENABLE(ca-search,
-AS_HELP_STRING([--enable-ca-search],[Enable CA bundle search in PATH on Windows (default)])
-AS_HELP_STRING([--disable-ca-search],[Disable CA bundle search in PATH on Windows]),
+AS_HELP_STRING([--enable-ca-search],[Enable unsafe CA bundle search in PATH on Windows (default)])
+AS_HELP_STRING([--disable-ca-search],[Disable unsafe CA bundle search in PATH on Windows]),
   [ case "$enableval" in
     no)
       AC_MSG_RESULT([no])
