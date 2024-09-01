@@ -31,8 +31,8 @@ cert bundle. This option overrides that variable.
 'curl-ca-bundle.crt', either in the same directory as curl.exe, or in the
 Current Working Directory, or in any folder along your PATH.
 
-curl 8.11.0 added a build-time option to override this behavior and restrict
-the search to the application's directory.
+curl 8.11.0 added a build-time option to disable this search behavior, and
+another option to restrict search to the application's directory.
 
 (iOS and macOS only) If curl is built against Secure Transport, then this
 option is supported for backward compatibility with other SSL engines, but it
