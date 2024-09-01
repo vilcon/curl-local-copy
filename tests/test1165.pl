@@ -59,6 +59,7 @@ sub scan_configure {
     my @m4 = grep { /\.m4$/ } readdir($m);
     closedir $m;
     scanconf("$root/configure.ac");
+    scanconf("$root/src/Makefile.am");
     # scan all m4 files too
     for my $e (@m4) {
         scanconf("$root/m4/$e");
@@ -81,6 +82,7 @@ sub scanconf_cmake {
 
 sub scan_cmake {
     scanconf_cmake(\%disable_cmake, "$root/CMakeLists.txt");
+    scanconf_cmake(\%disable_cmake, "$root/src/CMakeLists.txt");
 }
 
 sub scan_cmake_config_h {
