@@ -3094,7 +3094,8 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
             config->cacert = strdup(cacert);
           }
         }
-#elif defined(_WIN32) && !defined(CURL_WINDOWS_APP) && !defined(CURL_DISABLE_CA_SEARCH)
+#elif defined(_WIN32) && !defined(CURL_WINDOWS_APP) && \
+  !defined(CURL_DISABLE_CA_SEARCH)
         result = FindWin32CACert(config, tls_backend_info->backend,
                                  TEXT("curl-ca-bundle.crt"));
 #endif
