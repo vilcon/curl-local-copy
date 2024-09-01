@@ -2580,8 +2580,8 @@ want_disable_ca_search=0
 if test "$curl_cv_native_windows" = "yes"; then
   AC_MSG_CHECKING([whether to disable CA bundle search in PATH on Windows])
   AC_ARG_ENABLE(ca-search,
-  AS_HELP_STRING([--enable-ca-search],[Enable CA bundle search in PATH on Windows (default)])
-  AS_HELP_STRING([--disable-ca-search],[Disable CA bundle search in PATH on Windows]),
+AS_HELP_STRING([--enable-ca-search],[Enable CA bundle search in PATH on Windows (default)])
+AS_HELP_STRING([--disable-ca-search],[Disable CA bundle search in PATH on Windows]),
   [ case "$enableval" in
     no)
       AC_MSG_RESULT(no)
