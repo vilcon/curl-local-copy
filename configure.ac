@@ -2576,7 +2576,7 @@ dnl -----------------------
 dnl check disable CA search
 dnl -----------------------
 
-want_ca_search_disable=0
+want_disable_ca_search=0
 if test "$curl_cv_native_windows" = "yes"; then
   AC_MSG_CHECKING([whether to disable CA bundle search in PATH on Windows])
   AC_ARG_ENABLE(ca-search,
@@ -2585,7 +2585,7 @@ if test "$curl_cv_native_windows" = "yes"; then
   [ case "$enableval" in
     no)
       AC_MSG_RESULT(no)
-      want_ca_search_disable=1
+      want_disable_ca_search=1
       ;;
     *)
       AC_MSG_RESULT(yes)
@@ -2595,7 +2595,7 @@ if test "$curl_cv_native_windows" = "yes"; then
   )
 fi
 
-AM_CONDITIONAL([USE_CA_SEARCH_DISABLE], [test "$want_ca_search_disable" = '1'])
+AM_CONDITIONAL([USE_DISABLE_CA_SEARCH], [test "$want_disable_ca_search" = '1'])
 
 dnl ----------------------------
 dnl check Windows Unicode option
