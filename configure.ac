@@ -2560,14 +2560,14 @@ AS_HELP_STRING([--enable-ca-search-safe],[Enable safe CA bundle search])
 AS_HELP_STRING([--disable-ca-search-safe],[Disable safe CA bundle search (default)]),
 [ case "$enableval" in
   yes)
-    AC_MSG_RESULT(yes)
+    AC_MSG_RESULT([yes])
     want_ca_search_safe=1
     ;;
   *)
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT([no])
     ;;
   esac ],
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT([no])
 )
 
 AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = '1'])
@@ -2584,14 +2584,14 @@ AS_HELP_STRING([--enable-ca-search],[Enable CA bundle search in PATH on Windows 
 AS_HELP_STRING([--disable-ca-search],[Disable CA bundle search in PATH on Windows]),
   [ case "$enableval" in
     no)
-      AC_MSG_RESULT(no)
+      AC_MSG_RESULT([no])
       want_disable_ca_search=1
       ;;
     *)
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT([yes])
       ;;
     esac ],
-      AC_MSG_RESULT(yes)
+      AC_MSG_RESULT([yes])
   )
 fi
 
