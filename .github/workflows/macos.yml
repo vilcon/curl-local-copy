@@ -93,7 +93,7 @@ jobs:
           - name: 'OpenSSL libssh'
             compiler: llvm@15
             install: libssh
-            configure: --enable-debug --with-libssh --with-openssl=$(brew --prefix openssl) --enable-websockets
+            configure: --enable-debug --with-libssh --with-openssl=$(brew --prefix openssl) --enable-websockets --enable-ca-search-safe
             macos-version-min: '10.9'
           - name: '!ssl c-ares'
             compiler: clang
@@ -292,7 +292,7 @@ jobs:
             macos-version-min: '10.9'
           - name: 'OpenSSL +static libssh'
             install: libssh
-            generate: -DOPENSSL_ROOT_DIR=$(brew --prefix openssl) -DBUILD_STATIC_LIBS=ON -DCURL_USE_LIBSSH2=OFF -DCURL_USE_LIBSSH=ON
+            generate: -DOPENSSL_ROOT_DIR=$(brew --prefix openssl) -DBUILD_STATIC_LIBS=ON -DCURL_USE_LIBSSH2=OFF -DCURL_USE_LIBSSH=ON -DCURL_CA_SEARCH_SAFE=ON
             macos-version-min: '10.9'
           - name: 'SecureTransport ws debug+'
             generate: -DCURL_USE_SECTRANSP=ON -DENABLE_WEBSOCKETS=ON -DENABLE_DEBUG=ON -DENABLE_CURLDEBUG=ON

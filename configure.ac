@@ -2549,6 +2549,54 @@ AC_SUBST([CURL_LT_SHLIB_VERSIONED_FLAVOUR],
 AM_CONDITIONAL([CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS],
   [test "x$versioned_symbols" = 'xyes'])
 
+dnl --------------------
+dnl check safe CA search
+dnl --------------------
+
+want_ca_search_safe=0
+AC_MSG_CHECKING([whether to enable safe CA bundle search (within the curl tool directory)])
+AC_ARG_ENABLE(ca-search-safe,
+AS_HELP_STRING([--enable-ca-search-safe],[Enable safe CA bundle search])
+AS_HELP_STRING([--disable-ca-search-safe],[Disable safe CA bundle search (default)]),
+[ case "$enableval" in
+  yes)
+    AC_MSG_RESULT([yes])
+    want_ca_search_safe=1
+    ;;
+  *)
+    AC_MSG_RESULT([no])
+    ;;
+  esac ],
+    AC_MSG_RESULT([no])
+)
+
+AM_CONDITIONAL([USE_CA_SEARCH_SAFE], [test "$want_ca_search_safe" = '1'])
+
+dnl ------------------------------
+dnl check disable unsafe CA search
+dnl ------------------------------
+
+want_disable_ca_search=0
+if test "$curl_cv_native_windows" = "yes"; then
+  AC_MSG_CHECKING([whether to disable unsafe CA bundle search in PATH on Windows])
+  AC_ARG_ENABLE(ca-search,
+AS_HELP_STRING([--enable-ca-search],[Enable unsafe CA bundle search in PATH on Windows (default)])
+AS_HELP_STRING([--disable-ca-search],[Disable unsafe CA bundle search in PATH on Windows]),
+  [ case "$enableval" in
+    no)
+      AC_MSG_RESULT([no])
+      want_disable_ca_search=1
+      ;;
+    *)
+      AC_MSG_RESULT([yes])
+      ;;
+    esac ],
+      AC_MSG_RESULT([yes])
+  )
+fi
+
+AM_CONDITIONAL([USE_DISABLE_CA_SEARCH], [test "$want_disable_ca_search" = '1'])
+
 dnl ----------------------------
 dnl check Windows Unicode option
 dnl ----------------------------

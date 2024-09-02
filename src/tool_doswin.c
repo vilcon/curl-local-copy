@@ -600,6 +600,8 @@ char **__crt0_glob_function(char *arg)
 
 #ifdef _WIN32
 
+#if !defined(CURL_WINDOWS_APP) && \
+  !defined(CURL_DISABLE_CA_SEARCH) && !defined(CURL_CA_SEARCH_SAFE)
 /*
  * Function to find CACert bundle on a Win32 platform using SearchPath.
  * (SearchPath is already declared via inclusions done in setup header file)
@@ -621,11 +623,6 @@ CURLcode FindWin32CACert(struct OperationConfig *config,
 {
   CURLcode result = CURLE_OK;
 
-#ifdef CURL_WINDOWS_APP
-  (void)config;
-  (void)backend;
-  (void)bundle_file;
-#else
   /* Search and set cert file only if libcurl supports SSL.
    *
    * If Schannel is the selected SSL backend then these locations are
@@ -651,11 +648,10 @@ CURLcode FindWin32CACert(struct OperationConfig *config,
         result = CURLE_OUT_OF_MEMORY;
     }
   }
-#endif
 
   return result;
 }
-
+#endif
 
 /* Get a list of all loaded modules with full paths.
  * Returns slist on success or NULL on error.

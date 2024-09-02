@@ -106,6 +106,16 @@ add_library(
 target_compile_definitions(curltool PUBLIC "UNITTESTS" "CURL_STATICLIB")
 target_link_libraries(curltool PRIVATE ${CURL_LIBS})
 
+option(CURL_CA_SEARCH_SAFE "Enable safe CA bundle search (within the curl tool directory)" OFF)
+if(CURL_CA_SEARCH_SAFE)
+  set_property(TARGET ${EXE_NAME} APPEND PROPERTY COMPILE_DEFINITIONS "CURL_CA_SEARCH_SAFE")
+endif()
+
+option(CURL_DISABLE_CA_SEARCH "Disable unsafe CA bundle search in PATH on Windows" OFF)
+if(CURL_DISABLE_CA_SEARCH)
+  set_property(TARGET ${EXE_NAME} APPEND PROPERTY COMPILE_DEFINITIONS "CURL_DISABLE_CA_SEARCH")
+endif()
+
 if(CURL_HAS_LTO)
   set_target_properties(${EXE_NAME} PROPERTIES
     INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE

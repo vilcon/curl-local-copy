@@ -3083,11 +3083,23 @@ static CURLcode transfer_per_config(struct GlobalConfig *global,
         }
       }
 
-#ifdef _WIN32
-      if(!env)
+      if(!env) {
+#if defined(CURL_CA_SEARCH_SAFE)
+        if(feature_ssl &&
+           tls_backend_info->backend != CURLSSLBACKEND_SCHANNEL) {
+          char *cacert = NULL;
+          FILE *cafile = Curl_execpath(global, "curl-ca-bundle.crt", &cacert);
+          if(cafile) {
+            fclose(cafile);
+            config->cacert = strdup(cacert);
+          }
+        }
+#elif defined(_WIN32) && !defined(CURL_WINDOWS_APP) && \
+  !defined(CURL_DISABLE_CA_SEARCH)
         result = FindWin32CACert(config, tls_backend_info->backend,
                                  TEXT("curl-ca-bundle.crt"));
 #endif
+      }
     }
     curl_easy_cleanup(curltls);
   }

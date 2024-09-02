@@ -32,7 +32,7 @@ my %disable;
 # the DISABLE options that can be set by CMakeLists.txt
 my %disable_cmake;
 # the DISABLE options propagated via curl_config.h.cmake
-my %disable_cmake_config_h;
+my %disable_cmake_propagated;
 # the DISABLE options that are used in C files
 my %file;
 # the DISABLE options that are documented
@@ -59,6 +59,7 @@ sub scan_configure {
     my @m4 = grep { /\.m4$/ } readdir($m);
     closedir $m;
     scanconf("$root/configure.ac");
+    scanconf("$root/src/Makefile.am");
     # scan all m4 files too
     for my $e (@m4) {
         scanconf("$root/m4/$e");
@@ -66,10 +67,11 @@ sub scan_configure {
 }
 
 sub scanconf_cmake {
-    my ($hashr, $f)=@_;
+    my ($hashr, $f, $before)=@_;
+    $before //= "";
     open S, "<$f";
     while(<S>) {
-        if(/(CURL_DISABLE_[A-Z0-9_]+)/g) {
+        if(/$before(CURL_DISABLE_[A-Z0-9_]+)/g) {
             my ($sym)=($1);
             if(not $sym =~ /^(CURL_DISABLE_INSTALL|CURL_DISABLE_TESTS|CURL_DISABLE_SRP)$/) {
                 $hashr->{$sym} = 1;
@@ -81,10 +83,12 @@ sub scanconf_cmake {
 
 sub scan_cmake {
     scanconf_cmake(\%disable_cmake, "$root/CMakeLists.txt");
+    scanconf_cmake(\%disable_cmake, "$root/src/CMakeLists.txt");
 }
 
-sub scan_cmake_config_h {
-    scanconf_cmake(\%disable_cmake_config_h, "$root/lib/curl_config.h.cmake");
+sub scan_cmake_propagated {
+    scanconf_cmake(\%disable_cmake_propagated, "$root/lib/curl_config.h.cmake");
+    scanconf_cmake(\%disable_cmake_propagated, "$root/src/CMakeLists.txt", 'COMPILE_DEFINITIONS "?');
 }
 
 sub scan_file {
@@ -131,7 +135,7 @@ sub scan_docs {
 
 scan_configure();
 scan_cmake();
-scan_cmake_config_h();
+scan_cmake_propagated();
 scan_sources();
 scan_docs();
 
@@ -161,10 +165,10 @@ for my $s (sort keys %disable_cmake) {
     }
 }
 
-# Check the CMakeLists.txt symbols for use in curl_config.h.cmake
+# Check the CMakeLists.txt symbols for propagation to C
 for my $s (sort keys %disable_cmake) {
-    if(!$disable_cmake_config_h{$s}) {
-        printf "Present in CMakeLists.txt, not propagated via curl_config.h.cmake: %s\n", $s;
+    if(!$disable_cmake_propagated{$s}) {
+        printf "Present in CMakeLists.txt, not propagated via curl_config.h.cmake or 'COMPILE_DEFINITIONS': %s\n", $s;
         $error++;
     }
 }
