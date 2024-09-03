@@ -608,7 +608,7 @@ static ParameterError data_urlencode(struct GlobalConfig *global,
       }
     }
 
-    err = file2memory(&postdata, &size, file);
+    err = file2memory(&postdata, &size, file, 0, 0, 0);
 
     if(file && (file != stdin))
       fclose(file);
@@ -849,6 +849,9 @@ static ParameterError set_data(cmdline_t cmd,
   char *postdata = NULL;
   FILE *file;
   size_t size = 0;
+  size_t offset_start = 0;
+  size_t offset_end = 0;
+  int offset_flags = 0;
   ParameterError err = PARAM_OK;
 
   if(cmd == C_DATA_URLENCODE) { /* --data-urlencode */
@@ -867,6 +870,14 @@ static ParameterError set_data(cmdline_t cmd,
         set_binmode(stdin);
     }
     else {
+      offset_flags = filename_extract_limits(nextarg, &offset_start,
+                                             &offset_end);
+      if(offset_flags == (FILELIMIT_END | FILELIMIT_START) &&
+         offset_start > offset_end) {
+        errorf(global, "Filerange can not be negative size.");
+        return PARAM_BAD_USE;
+      }
+
       file = fopen(nextarg, "rb");
       if(!file) {
         errorf(global, "Failed to open %s", nextarg);
@@ -875,11 +886,19 @@ static ParameterError set_data(cmdline_t cmd,
     }
 
     if((cmd == C_DATA_BINARY) || /* --data-binary */
-       (cmd == C_JSON) /* --json */)
+       (cmd == C_JSON) /* --json */) {
       /* forced binary */
-      err = file2memory(&postdata, &size, file);
+      err = file2memory(&postdata, &size, file, offset_flags, offset_start,
+                        offset_end);
+
+      if(err == PARAM_FSEEK_ERROR)
+        errorf(global, "Can't move to te selected Offset of %s: %s", nextarg,
+               strerror(errno));
+    }
+
     else {
-      err = file2string(&postdata, file);
+      err = file2string(&postdata, file, offset_flags, offset_start,
+                        offset_end);
       if(postdata)
         size = strlen(postdata);
     }
@@ -1942,7 +1961,7 @@ ParameterError getparameter(const char *flag, /* f or -long-flag */
                   nextarg);
             return PARAM_BAD_USE; /*  */
           }
-          err = file2string(&tmpcfg, file);
+          err = file2string(&tmpcfg, file, 0, 0, 0);
           if(file != stdin)
             fclose(file);
           if(err)
@@ -2204,7 +2223,7 @@ ParameterError getparameter(const char *flag, /* f or -long-flag */
           err = PARAM_READ_ERROR;
         }
         else {
-          err = file2memory(&string, &len, file);
+          err = file2memory(&string, &len, file, 0, 0, 0);
           if(!err && string) {
             /* Allow strtok() here since this is not used threaded */
             /* !checksrc! disable BANNEDFUNC 2 */
@@ -2568,7 +2587,7 @@ ParameterError getparameter(const char *flag, /* f or -long-flag */
           }
         }
         Curl_safefree(config->writeout);
-        err = file2string(&config->writeout, file);
+        err = file2string(&config->writeout, file, 0, 0, 0);
         if(file && (file != stdin))
           fclose(file);
         if(err)
