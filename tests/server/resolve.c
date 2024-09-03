@@ -22,6 +22,8 @@
  *
  ***************************************************************************/
 #include "server_setup.h"
+#include <stdlib.h>
+#include <string.h>
 
 /* Purpose
  *
