@@ -51,6 +51,13 @@
 /* include memdebug.h last */
 #include "memdebug.h"
 
+/* Hack for Unity mode */
+#ifdef HEADER_CURL_MEMDEBUG_H
+#undef HEADER_CURL_MEMDEBUG_H
+#undef freeaddrinfo
+#undef getaddrinfo
+#endif
+
 static bool use_ipv6 = FALSE;
 static const char *ipv_inuse = "IPv4";
 
