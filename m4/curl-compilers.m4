@@ -469,9 +469,9 @@ AC_DEFUN([CURL_COMPILER_WORKS_IFELSE], [
     test "$tmp_compiler_works" = "yes"; then
     CURL_RUN_IFELSE([
       AC_LANG_PROGRAM([[
-#       ifdef __STDC__
-#         include <stdlib.h>
-#       endif
+        #ifdef __STDC__
+        #  include <stdlib.h>
+        #endif
       ]],[[
         int i = 0;
         exit(i);
@@ -1394,7 +1394,7 @@ AC_DEFUN([CURL_CHECK_COMPILER_SYMBOL_HIDING], [
           CFLAGS="$CFLAGS -fvisibility=hidden"
           AC_LINK_IFELSE([
             AC_LANG_PROGRAM([[
-#             include <stdio.h>
+              #include <stdio.h>
             ]],[[
               printf("icc fvisibility bug test");
             ]])
@@ -1474,7 +1474,7 @@ AC_DEFUN([CURL_CHECK_COMPILER_PROTOTYPE_MISMATCH], [
   AC_MSG_CHECKING([if compiler halts on function prototype mismatch])
   AC_COMPILE_IFELSE([
     AC_LANG_PROGRAM([[
-#     include <stdlib.h>
+      #include <stdlib.h>
       int rand(int n);
       int rand(int n)
       {

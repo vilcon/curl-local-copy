@@ -227,7 +227,7 @@ else()
 endif()
 option(CURL_USE_PKGCONFIG "Enable pkg-config to detect dependencies" ${_curl_use_pkgconfig_default})
 
-# Initialize CURL_LIBS
+# Initialize variables collecting dependency libs, paths, pkg-config names.
 set(CURL_LIBS "")
 set(CURL_LIBDIRS "")
 set(LIBCURL_PC_REQUIRES_PRIVATE "")
@@ -367,10 +367,8 @@ option(ENABLE_IPV6 "Enable IPv6 support" ON)
 mark_as_advanced(ENABLE_IPV6)
 if(ENABLE_IPV6 AND NOT WIN32)
   include(CheckStructHasMember)
-  check_struct_has_member("struct sockaddr_in6" "sin6_addr" "netinet/in.h"
-                          HAVE_SOCKADDR_IN6_SIN6_ADDR)
-  check_struct_has_member("struct sockaddr_in6" "sin6_scope_id" "netinet/in.h"
-                          HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID)
+  check_struct_has_member("struct sockaddr_in6" "sin6_addr" "netinet/in.h" HAVE_SOCKADDR_IN6_SIN6_ADDR)
+  check_struct_has_member("struct sockaddr_in6" "sin6_scope_id" "netinet/in.h" HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID)
   if(NOT HAVE_SOCKADDR_IN6_SIN6_ADDR)
     message(WARNING "struct sockaddr_in6 not available, disabling IPv6 support")
     # Force the feature off as this name is used as guard macro...
@@ -1514,9 +1512,8 @@ check_symbol_exists("inet_pton" "${CURL_INCLUDES};stdlib.h;string.h" HAVE_INET_P
 
 check_symbol_exists("fsetxattr" "${CURL_INCLUDES}" HAVE_FSETXATTR)
 if(HAVE_FSETXATTR)
-  foreach(_curl_test IN ITEMS HAVE_FSETXATTR_5 HAVE_FSETXATTR_6)
-    curl_internal_test(${_curl_test})
-  endforeach()
+  curl_internal_test(HAVE_FSETXATTR_5)
+  curl_internal_test(HAVE_FSETXATTR_6)
 endif()
 
 set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
@@ -1604,12 +1601,8 @@ if(ENABLE_WEBSOCKETS)
   endif()
 endif()
 
-foreach(_curl_test IN ITEMS
-    HAVE_GLIBC_STRERROR_R
-    HAVE_POSIX_STRERROR_R
-    )
-  curl_internal_test(${_curl_test})
-endforeach()
+curl_internal_test(HAVE_GLIBC_STRERROR_R)
+curl_internal_test(HAVE_POSIX_STRERROR_R)
 
 # Check for reentrant
 foreach(_curl_test IN ITEMS
@@ -1636,13 +1629,11 @@ if(NEED_REENTRANT)
 endif()
 
 if(NOT WIN32)
-  # Check clock_gettime(CLOCK_MONOTONIC, x) support
-  curl_internal_test(HAVE_CLOCK_GETTIME_MONOTONIC)
+  curl_internal_test(HAVE_CLOCK_GETTIME_MONOTONIC)  # Check clock_gettime(CLOCK_MONOTONIC, x) support
 endif()
 
 if(APPLE)
-  # Check compiler support of __builtin_available()
-  curl_internal_test(HAVE_BUILTIN_AVAILABLE)
+  curl_internal_test(HAVE_BUILTIN_AVAILABLE)  # Check compiler support of __builtin_available()
 endif()
 
 # Some other minor tests
